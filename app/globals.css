@@ -1,26 +1,106 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   Arti — design tokens
+   名刺と共通のカラー。生成り地で固定(ダークモード非対応)。
+   アートディレクション: 「職人の製図台・図面」
+--------------------------------------------------------------------------- */
+@theme {
+  /* colors */
+  --color-nama: #f5f3ec; /* 生成り — 背景 */
+  --color-aitetsu: #545472; /* 藍鉄 — 主色(見出し・面) */
+  --color-shu: #c35823; /* 朱 — アクセント(最小限) */
+  --color-sumi: #26241f; /* 墨 — 本文 */
+
+  /* fonts (bound to next/font variables in layout) */
+  --font-montserrat: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-noto: var(--font-noto), ui-sans-serif, system-ui, sans-serif;
+
+  /* motion */
+  --ease-craft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base -------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  /* オフセット: 固定ヘッダー分アンカー位置を調整 */
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-nama);
+  color: var(--color-sumi);
+  font-family: var(--font-noto);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 図面の方眼グリッド(24px・藍鉄 3.5%)。製図台のように固定。 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(84, 84, 114, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(84, 84, 114, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* 紙の質感を感じる程度のノイズ(opacity 2.5%) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-shu) 22%, transparent);
+  color: var(--color-sumi);
+}
+
+/* キーボードフォーカスの可視化 */
+:focus-visible {
+  outline: 2px solid var(--color-shu);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* 欧文ラベル(ARTI / WORKS 等)の字間 */
+.label {
+  font-family: var(--font-montserrat);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* IntersectionObserver フェードイン ------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s var(--ease-craft),
+    transform 0.7s var(--ease-craft);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

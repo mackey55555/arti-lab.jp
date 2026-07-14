@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# arti-lab.jp
 
-## Getting Started
+個人事業「Arti」(フリーランスエンジニア 槇原瑛)の公式サイト。
+名刺の QR コードの飛び先・商談前に閲覧される営業資産。1ページ完結の LP。
 
-First, run the development server:
+Next.js (App Router) + TypeScript + Tailwind CSS v4 / Vercel デプロイ。全て静的。
+
+## 開発
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # 開発サーバ (http://localhost:3000)
+npm run build   # 本番ビルド
+npm run start   # 本番サーバ
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 構成
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+app/
+  layout.tsx           メタデータ・OGP・フォント (Montserrat / Noto Sans JP)
+  page.tsx             セクションの組み立て
+  globals.css          デザイントークン(生成り/藍鉄/朱/墨)・reveal・ノイズ
+  icon.svg             favicon(モノグラム)
+  apple-icon.tsx       apple touch icon(next/og で生成)
+  opengraph-image.tsx  OGP 1200×630(生成り地 + 横並びロゴ + 朱の一線)
+  sitemap.ts / robots.ts
+components/
+  Header / Hero / About / Services / Skills / Community / Contact / Footer
+  Logo.tsx             public/ の実ロゴPNGを next/image で表示
+  SectionShell.tsx     非対称2カラム枠(sticky表題欄 + 巨大番号 + 寸法線ディバイダ)
+  Watermark.tsx        巨大欧文ウォーターマーク(視差 / reduced-motion 尊重)
+  Reveal.tsx           IntersectionObserver フェードイン(reduced-motion 尊重)
+public/
+  logo-lockup.png      横並びロゴ(ヘッダー)
+  logo-monogram.png    六角モノグラム(Hero/Footer/アイコン)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## デザイン
 
-## Learn More
+- カラーは名刺と共通(生成り #F5F3EC / 藍鉄 #545472 / 朱 #C35823 / 墨 #26241F)
+- 「朱の一線」を全体のモチーフに。各見出し下・Hero・フッター上端に一本
+- 生成り地で固定(ダークモード非対応)
 
-To learn more about Next.js, take a look at the following resources:
+## デプロイ (Vercel)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. GitHub リポジトリ作成 → Vercel にインポート
+2. ドメイン設定に `arti-lab.jp` / `www.arti-lab.jp` を追加
+3. DNS にレコード追加:
+   - apex: A レコード → Vercel 指定 IP
+   - www: CNAME → `cname.vercel-dns.com`
+   - **既存の MX / TXT(SPF・DKIM・DMARC・site-verification)は絶対に削除しない**(Google Workspace のメールが止まる)
+4. www → apex のリダイレクトを Vercel 側で設定
