@@ -2,21 +2,15 @@ import Reveal from "./Reveal";
 import SectionShell from "./SectionShell";
 
 // 技術 — Tier 1: 主戦場(大きく見せる)
-const CORE = [
-  {
-    name: "TypeScript / Next.js / React",
-    detail: "現在のメインスタック(個人リポジトリの過半がこれ)",
-  },
-  { name: "PHP / Laravel", detail: "業務系の主力。9年の蓄積" },
+const CORE: { name: string; detail?: string }[] = [
+  { name: "TypeScript / Next.js / React" },
+  { name: "PHP / Laravel" },
   {
     name: "AWS",
     detail:
       "EC2 / RDS / S3 / CloudFront / Lambda / API Gateway、サーバーレス設計、CloudFormation",
   },
-  {
-    name: "AI駆動開発",
-    detail: "Claude Code、git worktree 並列開発の実運用",
-  },
+  { name: "AI駆動開発" },
 ];
 
 // 技術 — Tier 2: 実戦経験あり(普通に見せる)
@@ -44,7 +38,6 @@ const PM = [
   "要件定義・仕様策定(上流〜実装の一気通貫)",
   "チームマネジメント: 2〜10名規模、全体最大20名のプロジェクト経験",
   "ベンダーコントロール、コードレビュー、品質管理",
-  "頓挫プロジェクトの火消し・再生(複数実績)",
 ];
 
 const IT_STREAK_APPS = [
@@ -90,9 +83,11 @@ export default function Skills() {
                 <p className="text-[0.95rem] font-medium text-aitetsu">
                   {s.name}
                 </p>
-                <p className="mt-0.5 text-[0.8rem] leading-relaxed text-sumi/75">
-                  {s.detail}
-                </p>
+                {s.detail && (
+                  <p className="mt-0.5 text-[0.8rem] leading-relaxed text-sumi/75">
+                    {s.detail}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -130,11 +125,6 @@ export default function Skills() {
               </li>
             ))}
           </ul>
-
-          <p className="mt-4 border-t border-aitetsu/15 pt-4 text-[0.9rem] leading-relaxed font-medium text-aitetsu">
-            2019年以降ほぼ全案件で PM ロールを兼務。
-            <span className="text-shu">「作れる PM」が9年分。</span>
-          </p>
         </Reveal>
       </div>
 
