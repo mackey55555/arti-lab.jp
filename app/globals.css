@@ -104,3 +104,38 @@ body::after {
     transition: none;
   }
 }
+
+/* 文章ページ(規約・サポート) ------------------------------------------- */
+.prose-arti {
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: color-mix(in srgb, var(--color-sumi) 90%, transparent);
+}
+.prose-arti h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-aitetsu);
+}
+.prose-arti p {
+  margin-top: 0.75rem;
+}
+.prose-arti ul {
+  margin-top: 0.75rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.prose-arti li {
+  margin-top: 0.35rem;
+}
+.prose-arti strong {
+  font-weight: 700;
+  color: var(--color-sumi);
+}
+.prose-arti a {
+  color: var(--color-shu);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
