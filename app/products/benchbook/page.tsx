@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   },
 };
 
-/** App Store の公開後にURLを入れる。空のあいだは「近日公開」と表示する */
-const APP_STORE_URL = "";
+/** 空にすると「近日公開」の表示に戻る */
+const APP_STORE_URL = "https://apps.apple.com/jp/app/id6835338670";
 
 const FEATURES = [
   {
